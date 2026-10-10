@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEXUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#06070b;--bg2:#0a0c14;--side:#0d1020;--ch:#101525;--panel:#151b2c;--panel2:#1c2338;--line:#222b45;--line2:#303a58;--tx:#eef1f8;--tx2:#9aa4bd;--tx3:#5b6580;--v:#8b5cf6;--v2:#a78bfa;--m:#ec4899;--c:#22d3ee;--g:#34d399;--r:#ef4444;--y:#fbbf24;--grad:linear-gradient(120deg,var(--v),var(--m));--ease:cubic-bezier(.22,1,.36,1)}
+[data-theme="light"]{--bg:#f4f5fa;--bg2:#eceef6;--side:#e2e5f1;--ch:#eaecf5;--panel:#fff;--panel2:#f4f5fa;--line:#d9dce9;--line2:#c5c9dc;--tx:#141824;--tx2:#525a75;--tx3:#8a91a8}
+[data-theme="midnight"]{--bg:#04060f;--bg2:#070b1a;--side:#0a0f22;--ch:#0c1228;--panel:#101833;--panel2:#16203f;--line:#1e2a52;--line2:#2b3a6b;--v:#6366f1;--v2:#818cf8;--m:#8b5cf6}
+[data-theme="ember"]{--bg:#0f0705;--bg2:#150a08;--side:#1a0d0a;--ch:#20110d;--panel:#2a1712;--panel2:#361d17;--line:#4a281f;--line2:#633629;--v:#f97316;--v2:#fb923c;--m:#ef4444}
+[data-theme="forest"]{--bg:#050a07;--bg2:#081009;--side:#0b150d;--ch:#0e1a12;--panel:#132119;--panel2:#1a2c22;--line:#233c2c;--line2:#325339;--v:#10b981;--v2:#34d399;--m:#22d3ee}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);overflow:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit;border:none;outline:none;background:none;color:inherit}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--v)}
+::selection{background:var(--v);color:#fff}
+.hidden{display:none!important}
+.auth{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:1000;overflow-y:auto;padding:40px 20px;transition:opacity .35s,visibility .35s}
+.auth.gone{opacity:0;visibility:hidden;pointer-events:none}
+.auth::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(139,92,246,.18),transparent 60%);pointer-events:none}
+.auth-box{position:relative;width:min(94vw,440px);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:36px 32px;box-shadow:0 40px 100px -30px rgba(0,0,0,.8)}
+.auth-logo{display:flex;justify-content:center;margin-bottom:12px}
+.lm{width:52px;height:52px;border-radius:14px;background:var(--grad);display:grid;place-items:center;box-shadow:0 10px 30px -8px var(--v)}
+.lm svg{width:26px;height:26px}
+.auth-box h1{font-size:22px;font-weight:800;text-align:center;letter-spacing:-.5px;margin-bottom:6px}
+.auth-box .sub{font-size:13px;color:var(--tx3);text-align:center;margin-bottom:22px}
+.tabs{display:flex;gap:6px;background:var(--bg2);padding:5px;border-radius:11px;margin-bottom:18px}
+.tab{flex:1;padding:10px;border-radius:8px;font-size:14px;font-weight:600;color:var(--tx2);transition:.2s}
+.tab.on{background:var(--panel2);color:var(--tx)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tx3);margin-bottom:5px}
+.field input{width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:9px;font-size:14px;transition:.2s;color:var(--tx)}
+.field input:focus{border-color:var(--v);box-shadow:0 0 0 3px rgba(139,92,246,.18)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:9px;font-weight:600;font-size:14px;transition:.2s}
+.btn-p{width:100%;background:var(--grad);color:#fff;box-shadow:0 8px 24px -8px var(--v)}
+.btn-p:hover{transform:translateY(-1px)}
+.btn-g{background:var(--panel2);color:var(--tx);border:1px solid var(--line)}
+.btn-g:hover{border-color:var(--v);color:var(--v2)}
+.err{color:#ff8a8a;font-size:13px;text-align:center;margin-top:10px;min-height:16px}
+.app{display:grid;grid-template-columns:72px 240px 1fr 220px;height:100vh}
+.guilds{background:var(--side);display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:10px;border-right:1px solid var(--line)}
+.guild{width:48px;height:48px;border-radius:14px;background:var(--panel);display:grid;place-items:center;font-weight:700;font-size:16px;color:var(--tx2);cursor:pointer}
+.guild.on{background:var(--grad);color:#fff}
+.guild.add{background:transparent;border:1.5px dashed var(--line2);color:var(--g);font-size:22px}
+.channels{background:var(--ch);display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.srv-head{padding:14px 16px;border-bottom:1px solid var(--line)}
+.srv-banner{height:60px;border-radius:9px;margin-bottom:8px;background:var(--grad)}
+.srv-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.srv-row .nm{font-weight:700;font-size:14px;flex:1}
+.icon-btn{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;color:var(--tx2)}
+.icon-btn:hover{background:var(--panel);color:var(--tx)}
+.chans{flex:1;overflow-y:auto;padding:12px 8px}
+.sec-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx3);padding:0 10px;margin:12px 0 6px}
+.ch{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;color:var(--tx2);font-size:14px;cursor:pointer;margin-bottom:1px}
+.ch:hover{background:var(--panel);color:var(--tx)}
+.ch.on{background:var(--panel);color:var(--tx);font-weight:500}
+.ch .hash{color:var(--tx3);font-weight:700;font-size:16px}
+.ch .nm{flex:1}
+.me{padding:10px;background:var(--bg2);border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.me .av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;background:var(--grad);position:relative}
+.me .av .st-dot{position:absolute;bottom:-1px;right:-1px;width:13px;height:13px;border-radius:50%;border:3px solid var(--bg2);background:var(--g)}
+.me .info{flex:1;min-width:0}
+.me .nm{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me .st{font-size:11px;color:var(--tx3)}
+.me .ctrls{display:flex;gap:2px}
+.me .ctrl{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;color:var(--tx2)}
+.me .ctrl:hover{background:var(--panel);color:var(--tx)}
+.chat{background:var(--bg2);display:flex;flex-direction:column;min-width:0;position:relative}
+.chat-head{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;min-height:56px}
+.chat-head .hash{color:var(--tx3);font-weight:800;font-size:20px}
+.chat-head .nm{font-weight:600;font-size:15px}
+.chat-head .spacer{flex:1}
+.chat-body{flex:1;overflow-y:auto;padding:20px 18px 12px;display:flex;flex-direction:column}
+.empty-chat{flex:1;display:grid;place-items:center;text-align:center;color:var(--tx3);padding:40px}
+.empty-chat svg{width:56px;height:56px;opacity:.3;margin-bottom:16px}
+.empty-chat h3{color:var(--tx2);font-size:16px;font-weight:600;margin-bottom:6px}
+.composer{padding:0 18px 20px}
+.composer-box{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 14px;display:flex;align-items:flex-end;gap:10px}
+.composer-box:focus-within{border-color:var(--v);box-shadow:0 0 0 3px rgba(139,92,246,.15)}
+.composer-box textarea{flex:1;resize:none;font-size:14px;line-height:1.5;min-height:22px;padding:6px 0}
+.send-btn{width:36px;height:36px;border-radius:9px;background:var(--grad);color:#fff;display:grid;place-items:center;flex-shrink:0;opacity:.4;pointer-events:none}
+.members{background:var(--ch);border-left:1px solid var(--line);overflow-y:auto;padding:18px 12px}
+.mem-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx3);padding:0 8px;margin-bottom:8px}
+.mem{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:7px;cursor:pointer}
+.mem:hover{background:var(--panel)}
+.mem .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;color:#fff;background:var(--grad)}
+.mem .nm{flex:1;font-size:13.5px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--line2);border-radius:11px;padding:12px 20px;font-size:14px;box-shadow:0 20px 50px -12px rgba(0,0,0,.7);z-index:1100;transition:transform .35s,opacity .35s;opacity:0;pointer-events:none}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+@media(max-width:900px){.app{grid-template-columns:64px 200px 1fr 0}.members{display:none}}
+</style>
+</head>
+<body>
+
+<div class="auth" id="auth">
+  <div class="auth-box">
+    <div class="auth-logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M6 18V6l12 12V6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <h1>Bem-vindo ao NEXUS</h1>
+    <p class="sub">esqueleto visual — a lógica entra no próximo arquivo</p>
+    <div class="tabs">
+      <button class="tab on">Entrar</button>
+      <button class="tab">Criar conta</button>
+    </div>
+    <div class="field"><label>nome de usuário</label><input placeholder="ex: axion99" /></div>
+    <div class="field"><label>senha</label><input type="password" placeholder="mínimo 4 caracteres" /></div>
+    <button class="btn btn-p">Entrar</button>
+    <p class="err">este é só o esqueleto — o próximo arquivo adiciona o login de verdade</p>
+  </div>
+</div>
+
+<div class="app hidden" id="app">
+  <aside class="guilds">
+    <div class="guild on">NX</div>
+    <div class="guild">AB</div>
+    <div class="guild add">+</div>
+  </aside>
+
+  <aside class="channels">
+    <div class="srv-head">
+      <div class="srv-banner"></div>
+      <div class="srv-row">
+        <div class="nm">Meu servidor</div>
+        <button class="icon-btn">⚙</button>
+      </div>
+    </div>
+    <div class="chans">
+      <div class="sec-lbl">Canais de texto</div>
+      <div class="ch on"><span class="hash">#</span><span class="nm">geral</span></div>
+      <div class="ch"><span class="hash">#</span><span class="nm">dev</span></div>
+      <div class="ch"><span class="hash">#</span><span class="nm">memes</span></div>
+      <div class="sec-lbl">Canais de voz</div>
+      <div class="ch"><span class="hash">🔊</span><span class="nm">Voz geral</span></div>
+    </div>
+    <div class="me">
+      <div class="av">EU<span class="st-dot"></span></div>
+      <div class="info">
+        <div class="nm">você</div>
+        <div class="st">online</div>
+      </div>
+      <div class="ctrls">
+        <button class="ctrl">🎙</button>
+        <button class="ctrl">⚙</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="chat">
+    <div class="empty-chat" id="empty-chat">
+      <div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <h3>Esqueleto visual</h3>
+        <p>a tela principal tá pronta. próxima arquivo adiciona a lógica.</p>
+      </div>
+    </div>
+    <div class="chat-head hidden" id="chat-head">
+      <span class="hash">#</span>
+      <span class="nm">geral</span>
+      <div class="spacer"></div>
+      <button class="icon-btn">👥</button>
+    </div>
+    <div class="chat-body hidden" id="chat-body"></div>
+    <div class="composer hidden" id="composer">
+      <div class="composer-box">
+        <textarea rows="1" placeholder="escreva uma mensagem..."></textarea>
+        <button class="send-btn">➤</button>
+      </div>
+    </div>
+  </main>
+
+  <aside class="members">
+    <div class="mem-lbl">Membros — 1</div>
+    <div class="mem">
+      <div class="av">EU</div>
+      <div class="nm">você (dono)</div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   ARQUIVO 2/9 — só um preview visual
+   na primeira visita, mostra a tela de login por 3s
+   depois abre a tela principal pra tu ver o esqueleto
+   ============================================================ */
+setTimeout(() => {
+  document.getElementById('auth').classList.add('gone');
+  document.getElementById('app').classList.remove('hidden');
+}, 3000);
+</script>
+</body>
+</html>
