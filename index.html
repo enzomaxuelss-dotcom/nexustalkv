@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEXUS — comunicação direta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#050609;--panel:#111522;--panel2:#181e2e;--line:#212a40;--line2:#2f3a55;--tx:#eef1f8;--tx2:#9aa4bd;--tx3:#5b6580;--v:#8b5cf6;--v2:#a78bfa;--m:#ec4899;--c:#22d3ee;--g:#34d399;--grad:linear-gradient(120deg,var(--v),var(--m));--grad-tx:linear-gradient(100deg,#c4b5fd,#f0abfc,#67e8f9);--ease:cubic-bezier(.22,1,.36,1)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+::selection{background:var(--v);color:#fff}
+.bg{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 15% -5%,rgba(139,92,246,.18),transparent 60%),radial-gradient(ellipse 60% 45% at 90% 8%,rgba(236,72,153,.14),transparent 60%),radial-gradient(ellipse 80% 60% at 50% 110%,rgba(34,211,238,.08),transparent 60%)}
+.grid-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(139,92,246,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.05) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000,transparent 75%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;transition:.3s;border-bottom:1px solid transparent}
+nav.on{background:rgba(5,6,9,.78);backdrop-filter:blur(20px);border-bottom-color:var(--line)}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:.5px}
+.lm{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;box-shadow:0 6px 20px -6px var(--v)}
+.lm svg{width:18px;height:18px}
+.navlinks{display:flex;align-items:center;gap:8px;font-size:14px}
+.navlinks>a{color:var(--tx2);padding:9px 16px;border-radius:100px;transition:.2s;font-weight:500}
+.navlinks>a:hover{color:var(--tx);background:var(--panel)}
+.cta-nav{background:var(--grad)!important;color:#fff!important;padding:10px 20px!important;font-weight:600!important;box-shadow:0 8px 24px -8px var(--v)}
+.hero{max-width:1240px;margin:0 auto;padding:150px 40px 80px}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:7px 16px;border-radius:100px;background:var(--panel);border:1px solid var(--line);font-size:13px;color:var(--tx2);font-weight:500;margin-bottom:28px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--g);position:relative}
+.pulse::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:var(--g);opacity:.35;animation:pl 2s ease-out infinite}
+@keyframes pl{0%{transform:scale(1);opacity:.35}100%{transform:scale(2.4);opacity:0}}
+h1{font-size:clamp(40px,7vw,74px);font-weight:900;letter-spacing:-3px;line-height:1.03;margin-bottom:26px;max-width:900px}
+.gt{background:var(--grad-tx);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:clamp(16px,2vw,19px);color:var(--tx2);max-width:580px;margin-bottom:38px}
+.acts{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:12px;font-weight:600;font-size:15px;transition:.25s var(--ease)}
+.bp{background:var(--grad);color:#fff;box-shadow:0 10px 32px -10px var(--v)}
+.bp:hover{transform:translateY(-2px);box-shadow:0 16px 40px -10px var(--v)}
+.bg-btn{background:var(--panel);color:var(--tx);border:1px solid var(--line2)}
+.bg-btn:hover{background:var(--panel2);border-color:var(--v);color:var(--v2)}
+.hint{font-size:13px;color:var(--tx3)}
+.hint kbd{font-family:monospace;font-size:11px;background:var(--panel);border:1px solid var(--line);padding:2px 7px;border-radius:5px;color:var(--tx2)}
+.sec{max-width:1200px;margin:0 auto;padding:110px 40px}
+.sec-head{text-align:center;margin-bottom:64px}
+.kick{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--v2);margin-bottom:14px}
+.sec-head h2{font-size:clamp(30px,5vw,48px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px}
+.sec-head p{color:var(--tx2);font-size:17px;max-width:560px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px;transition:.3s var(--ease)}
+.card:hover{border-color:var(--line2);transform:translateY(-4px);box-shadow:0 20px 50px -20px rgba(139,92,246,.35)}
+.ci{width:46px;height:46px;border-radius:12px;background:rgba(139,92,246,.12);color:var(--v2);display:grid;place-items:center;margin-bottom:18px;font-size:22px}
+.card h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.card p{font-size:14px;color:var(--tx2);line-height:1.6}
+.cta-wrap{max-width:1000px;margin:0 auto;padding:0 40px 110px}
+.cta-box{border-radius:28px;background:linear-gradient(140deg,rgba(139,92,246,.15),rgba(236,72,153,.08));border:1px solid var(--line2);padding:76px 48px;text-align:center;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;inset:-50%;background:radial-gradient(circle at 50% 50%,rgba(139,92,246,.28),transparent 60%);animation:rot 22s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.cta-box>*{position:relative;z-index:1}
+.cta-box h2{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1.5px;margin-bottom:16px}
+.cta-box p{color:var(--tx2);font-size:17px;max-width:520px;margin:0 auto 34px}
+footer{border-top:1px solid var(--line);padding:44px 40px 40px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.flinks{display:flex;gap:26px;font-size:14px;color:var(--tx3)}
+.flinks a:hover{color:var(--tx)}
+.fcopy{font-size:13px;color:var(--tx3)}
+@media(max-width:768px){nav{padding:14px 20px}.navlinks>a:not(.cta-nav){display:none}.hero{padding:120px 20px 60px}.sec{padding:80px 20px}.cta-box{padding:52px 24px}footer{padding:40px 20px;flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <a href="#" class="logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M6 18V6l12 12V6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>NEXUS</a>
+  <div class="navlinks">
+    <a href="#recursos">Recursos</a>
+    <a href="/app.html" class="cta-nav">Abrir app →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="pill"><span class="pulse"></span> v1.0 · servidor próprio · dados seus</div>
+  <h1>Converse. Transmita.<br/><span class="gt">Sem intermediário.</span></h1>
+  <p class="sub">Servidores, canais, voz em tempo real e compartilhamento de tela — no desktop ou direto no navegador. Mesma conta, mesmos servidores.</p>
+  <div class="acts">
+    <a href="/app.html" class="btn bp">Abrir NEXUS agora →</a>
+  </div>
+  <p class="hint">roda no navegador sem instalar · só precisa criar conta</p>
+</section>
+
+<section class="sec" id="recursos">
+  <div class="sec-head">
+    <div class="kick">o que tem dentro</div>
+    <h2>Tudo que um servidor precisa</h2>
+    <p>Criado pra funcionar sem depender de ninguém.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="ci">💬</div><h3>Servidores e canais</h3><p>Cria quantos servidores quiser, cada um com canais de texto ilimitados.</p></div>
+    <div class="card"><div class="ci">🎙</div><h3>Microfone real</h3><p>Captura áudio do teu PC via getUserMedia. Vê o nível do teu mic em tempo real.</p></div>
+    <div class="card"><div class="ci">🛡</div><h3>Cargos e punições</h3><p>Admin, gerente, moderador, membro. Ban, mute, kick e advertência com hierarquia.</p></div>
+    <div class="card"><div class="ci">💎</div><h3>Nitro</h3><p>4 tiers (Bronze, Prata, Ouro, Diamond). Impulsos, avatar, banner e badge exclusiva.</p></div>
+    <div class="card"><div class="ci">🤖</div><h3>Bots</h3><p>Cria bots com comandos customizados. Bots respondem mensagens no canal.</p></div>
+    <div class="card"><div class="ci">👥</div><h3>Amigos</h3><p>Adiciona pessoas, aceita pedidos, vê o status de cada um.</p></div>
+  </div>
+</section>
+
+<div class="cta-wrap">
+  <div class="cta-box">
+    <h2>Pronto pra sair do intermediário?</h2>
+    <p>Abre no navegador em um clique. Cria tua conta, monta teu servidor.</p>
+    <a href="/app.html" class="btn bp">Abrir NEXUS agora →</a>
+  </div>
+</div>
+
+<footer>
+  <a href="#" class="logo"><div class="lm" style="width:28px;height:28px"><svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px"><path d="M6 18V6l12 12V6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>NEXUS</a>
+  <div class="flinks"><a href="#recursos">Recursos</a><a href="/app.html">Abrir app</a></div>
+  <div class="fcopy">v1.0 · servidor próprio, dados seus</div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('on',scrollY>20));
+</script>
+</body>
+</html>
