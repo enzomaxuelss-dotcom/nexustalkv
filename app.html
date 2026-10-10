@@ -6,7 +6,7 @@
 <title>NEXUS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
-:root{--bg:#06070b;--bg2:#0a0c14;--side:#0d1020;--ch:#101525;--panel:#151b2c;--panel2:#1c2338;--line:#222b45;--line2:#303a58;--tx:#eef1f8;--tx2:#9aa4bd;--tx3:#5b6580;--v:#8b5cf6;--v2:#a78bfa;--m:#ec4899;--c:#22d3ee;--g:#34d399;--r:#ef4444;--y:#fbbf24;--grad:linear-gradient(120deg,var(--v),var(--m));--ease:cubic-bezier(.22,1,.36,1)}
+:root{--bg:#06070b;--bg2:#0a0c14;--side:#0d1020;--ch:#101525;--panel:#151b2c;--panel2:#1c2338;--line:#222b45;--line2:#303a58;--tx:#eef1f8;--tx2:#9aa4bd;--tx3:#5b6580;--v:#8b5cf6;--v2:#a78bfa;--m:#ec4899;--c:#22d3ee;--g:#34d399;--r:#ef4444;--grad:linear-gradient(120deg,var(--v),var(--m));--ease:cubic-bezier(.22,1,.36,1)}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);overflow:hidden;-webkit-font-smoothing:antialiased}
@@ -35,16 +35,13 @@ input,textarea{font-family:inherit;border:none;outline:none;background:none;colo
 .btn-p{width:100%;background:var(--grad);color:#fff;box-shadow:0 8px 24px -8px var(--v)}
 .btn-p:hover{transform:translateY(-1px)}
 .btn-g{background:var(--panel2);color:var(--tx);border:1px solid var(--line)}
-.btn-danger{background:rgba(239,68,68,.15);color:#ff8888;border:1px solid rgba(239,68,68,.3)}
 .err{color:#ff8a8a;font-size:13px;text-align:center;margin-top:10px;min-height:16px}
 .app{display:grid;grid-template-columns:72px 240px 1fr 220px;height:100vh}
 .guilds{background:var(--side);display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:10px;overflow-y:auto;border-right:1px solid var(--line)}
-.guild{width:48px;height:48px;border-radius:14px;background:var(--panel);display:grid;place-items:center;font-weight:700;font-size:16px;color:var(--tx2);cursor:pointer;position:relative;flex-shrink:0;user-select:none;overflow:hidden}
+.guild{width:48px;height:48px;border-radius:14px;background:var(--panel);display:grid;place-items:center;font-weight:700;font-size:16px;color:var(--tx2);cursor:pointer;position:relative;flex-shrink:0;user-select:none}
 .guild:hover{border-radius:16px;background:var(--panel2);color:var(--tx)}
-.guild.on{border-radius:16px;color:#fff}
-.guild.on::before{content:'';position:absolute;left:-12px;top:50%;transform:translateY(-50%);width:4px;height:26px;background:#fff;border-radius:0 4px 4px 0}
+.guild.on{border-radius:16px;color:#fff;background:var(--grad)}
 .guild.add{background:transparent;border:1.5px dashed var(--line2);color:var(--g);font-size:22px}
-.guild.add:hover{border-color:var(--g)}
 .sep{width:32px;height:2px;background:var(--line);border-radius:2px;flex-shrink:0}
 .channels{background:var(--ch);display:flex;flex-direction:column;border-right:1px solid var(--line);overflow:hidden}
 .srv-head{padding:14px 16px;border-bottom:1px solid var(--line);flex-shrink:0}
@@ -121,72 +118,40 @@ input,textarea{font-family:inherit;border:none;outline:none;background:none;colo
 </style>
 </head>
 <body>
-
 <div class="auth" id="auth">
   <div class="auth-box">
     <div class="auth-logo"><div class="lm"><svg viewBox="0 0 24 24" fill="none"><path d="M6 18V6l12 12V6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
     <h1 id="auth-title">Bem-vindo ao NEXUS</h1>
     <p class="sub" id="auth-sub">entra na tua conta pra continuar</p>
-    <div class="tabs">
-      <button class="tab on" data-tab="login">Entrar</button>
-      <button class="tab" data-tab="register">Criar conta</button>
-    </div>
+    <div class="tabs"><button class="tab on" data-tab="login">Entrar</button><button class="tab" data-tab="register">Criar conta</button></div>
     <div class="field"><label>nome de usuário</label><input id="f-user" placeholder="ex: axion99" maxlength="24" /></div>
     <div class="field"><label>senha</label><input id="f-pass" type="password" placeholder="mínimo 4 caracteres" /></div>
-    <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx2);margin:10px 0 16px;cursor:pointer">
-      <input type="checkbox" id="f-remember" checked style="accent-color:var(--v);width:15px;height:15px" />
-      manter conectado
-    </label>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx2);margin:10px 0 16px;cursor:pointer"><input type="checkbox" id="f-remember" checked style="accent-color:var(--v);width:15px;height:15px" />manter conectado</label>
     <button class="btn btn-p" id="auth-go">Entrar</button>
     <p class="err" id="auth-err"></p>
   </div>
 </div>
-
 <div class="app hidden" id="app">
   <aside class="guilds" id="guilds"></aside>
   <aside class="channels">
-    <div class="srv-head">
-      <div class="srv-banner" id="srv-banner"></div>
-      <div class="srv-row"><div class="nm" id="srv-name">—</div></div>
-    </div>
+    <div class="srv-head"><div class="srv-banner" id="srv-banner"></div><div class="srv-row"><div class="nm" id="srv-name">—</div></div></div>
     <div class="chans" id="chans"></div>
-    <div class="me">
-      <div class="av" id="me-av">?<span class="st-dot"></span></div>
-      <div class="info"><div class="nm" id="me-nm">—</div><div class="st">online</div></div>
-      <div class="ctrls"><button class="ctrl" id="btn-logout" title="sair">🚪</button></div>
-    </div>
+    <div class="me"><div class="av" id="me-av">?<span class="st-dot"></span></div><div class="info"><div class="nm" id="me-nm">—</div><div class="st">online</div></div><div class="ctrls"><button class="ctrl" id="btn-logout">🚪</button></div></div>
   </aside>
   <main class="chat">
-    <div class="empty-chat" id="empty-chat">
-      <div>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        <h3>Nenhum canal selecionado</h3>
-        <p>escolhe um canal na esquerda</p>
-      </div>
-    </div>
-    <div class="chat-head hidden" id="chat-head">
-      <span class="hash" id="ch-hash">#</span>
-      <span class="nm" id="ch-nm">geral</span>
-      <div class="spacer"></div>
-    </div>
+    <div class="empty-chat" id="empty-chat"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><h3>Nenhum canal selecionado</h3><p>escolhe um canal na esquerda</p></div></div>
+    <div class="chat-head hidden" id="chat-head"><span class="hash" id="ch-hash">#</span><span class="nm" id="ch-nm">geral</span><div class="spacer"></div></div>
     <div class="chat-body hidden" id="chat-body"></div>
-    <div class="composer hidden" id="composer">
-      <div class="composer-box">
-        <textarea id="msg-input" rows="1" placeholder="escreva uma mensagem..." maxlength="2000"></textarea>
-        <button class="send-btn" id="send-btn">➤</button>
-      </div>
-    </div>
+    <div class="composer hidden" id="composer"><div class="composer-box"><textarea id="msg-input" rows="1" placeholder="escreva uma mensagem..." maxlength="2000"></textarea><button class="send-btn" id="send-btn">➤</button></div></div>
   </main>
   <aside class="members" id="members"></aside>
 </div>
-
 <div class="toast" id="toast"></div>
 <div id="modal-root"></div>
-
 <script>
 const STORAGE_KEY='nexus.db.v1',SESSION_KEY='nexus.session.v1';
 const COLORS=['#8b5cf6','#ec4899','#22d3ee','#34d399','#fbbf24','#f97316','#ef4444','#6366f1'];
-const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const $=s=>document.querySelector(s);
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const initials=n=>(n||'?').slice(0,2).toUpperCase();
 const colorFor=n=>COLORS[[...(n||'x')].reduce((a,c)=>a+c.charCodeAt(0),0)%COLORS.length];
@@ -195,72 +160,85 @@ const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 function freshDB(){return{users:[],servers:[],messages:{},session:null,lastServer:null,lastChannel:null};}
 let DB=(()=>{try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||freshDB();}catch{return freshDB();}})();
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(DB));}
-function saveSession(id,remember){if(remember)localStorage.setItem(SESSION_KEY,id);else sessionStorage.setItem(SESSION_KEY,id);}
+function saveSession(id,rem){if(rem)localStorage.setItem(SESSION_KEY,id);else sessionStorage.setItem(SESSION_KEY,id);}
 function loadSession(){return localStorage.getItem(SESSION_KEY)||sessionStorage.getItem(SESSION_KEY);}
 function clearSession(){localStorage.removeItem(SESSION_KEY);sessionStorage.removeItem(SESSION_KEY);}
 
 const S={me:null,serverId:null,channelId:null};
 let toastTO;
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastTO);toastTO=setTimeout(()=>t.classList.remove('on'),2200);}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastTO);toastTO=setTimeout(()=>t.classList.remove('on'),2200);}
 function openModal(html){const w=document.createElement('div');w.className='modal';w.innerHTML='<div class="modal-box">'+html+'</div>';w.addEventListener('mousedown',e=>{if(e.target===w)w.remove();});$('#modal-root').appendChild(w);return w;}
 function getUser(id){return DB.users.find(u=>u.id===id);}
 function getServer(id){return DB.servers.find(s=>s.id===id);}
 function getChannel(id){for(const s of DB.servers){const c=(s.channels||[]).find(x=>x.id===id);if(c)return{server:s,channel:c};}return null;}
 
 let authMode='login';
-function setAuthMode(m){authMode=m;$$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===m));$('#auth-title').textContent=m==='login'?'Bem-vindo de volta':'Criar conta';$('#auth-sub').textContent=m==='login'?'entra na tua conta pra continuar':'escolhe um nome e uma senha';$('#auth-go').textContent=m==='login'?'Entrar':'Criar conta';$('#auth-err').textContent='';}
-
+function setAuthMode(m){
+  authMode=m;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===m));
+  $('#auth-title').textContent=m==='login'?'Bem-vindo de volta':'Criar conta';
+  $('#auth-sub').textContent=m==='login'?'entra na tua conta pra continuar':'escolhe um nome e uma senha';
+  $('#auth-go').textContent=m==='login'?'Entrar':'Criar conta';
+  $('#auth-err').textContent='';
+}
 function doAuth(){
-  const user=$('#f-user').value.trim(),pass=$('#f-pass').value,remember=$('#f-remember').checked,err=$('#auth-err');
+  const user=$('#f-user').value.trim(),pass=$('#f-pass').value,rem=$('#f-remember').checked,err=$('#auth-err');
   err.textContent='';
   if(user.length<2)return err.textContent='nome muito curto (mín. 2)';
   if(pass.length<4)return err.textContent='senha muito curta (mín. 4)';
   if(authMode==='register'){
     if(DB.users.find(u=>u.username.toLowerCase()===user.toLowerCase()))return err.textContent='esse nome já existe';
     const u={id:uid(),username:user,pass,color:colorFor(user),createdAt:Date.now()};
-    DB.users.push(u);DB.session=u.id;save();saveSession(u.id,remember);bootApp(u.id);
+    DB.users.push(u);DB.session=u.id;save();saveSession(u.id,rem);bootApp(u.id);
   }else{
     const u=DB.users.find(u=>u.username.toLowerCase()===user.toLowerCase()&&u.pass===pass);
     if(!u)return err.textContent='nome ou senha incorretos';
-    DB.session=u.id;save();saveSession(u.id,remember);bootApp(u.id);
+    DB.session=u.id;save();saveSession(u.id,rem);bootApp(u.id);
   }
 }
-function logout(){clearSession();DB.session=null;save();S.me=null;S.serverId=null;S.channelId=null;$('#app').classList.add('hidden');$('#auth').classList.remove('gone');$('#f-pass').value='';}
-
+function logout(){
+  clearSession();DB.session=null;save();
+  S.me=null;S.serverId=null;S.channelId=null;
+  $('#app').classList.add('hidden');$('#auth').classList.remove('gone');$('#f-pass').value='';
+}
 function createServer(name,silent){
-  const id=uid(),chText={id:uid(),name:'geral',type:'text'},chVoice={id:uid(),name:'Voz geral',type:'voice'};
-  const srv={id,name:(name||'Novo servidor').trim(),ownerId:S.me.id,color:colorFor(name+id),members:[S.me.id],channels:[chText,chVoice]};
-  DB.servers.push(srv);DB.messages[chText.id]=[];DB.lastServer=id;DB.lastChannel=chText.id;save();
+  const id=uid(),chT={id:uid(),name:'geral',type:'text'},chV={id:uid(),name:'Voz geral',type:'voice'};
+  const srv={id,name:(name||'Novo servidor').trim(),ownerId:S.me.id,color:colorFor(name+id),members:[S.me.id],channels:[chT,chV]};
+  DB.servers.push(srv);DB.messages[chT.id]=[];DB.lastServer=id;DB.lastChannel=chT.id;save();
   if(!silent){renderGuilds();selectServer(id);toast('servidor criado');}
   return srv;
 }
-
 function bootApp(sessionId){
   const id=sessionId||loadSession();
   S.me=id?getUser(id):null;
   if(!S.me)return logout();
   DB.session=S.me.id;save();
   $('#auth').classList.add('gone');$('#app').classList.remove('hidden');
-  $('#me-nm').textContent=S.me.username;$('#me-av').textContent=initials(S.me.username);$('#me-av').style.background=S.me.color;
+  $('#me-nm').textContent=S.me.username;
+  $('#me-av').textContent=initials(S.me.username);
+  $('#me-av').style.background=S.me.color;
   let mine=DB.servers.filter(s=>(s.members||[]).includes(S.me.id));
   if(!mine.length)createServer('Meu servidor',true);
-  const last=DB.lastServer&&DB.servers.find(s=>s.id===DB.lastServer&&(s.members||[]).includes(S.me.id))?DB.lastServer:DB.servers.filter(s=>(s.members||[]).includes(S.me.id))[0].id;
+  const last=DB.lastServer&&DB.servers.find(s=>s.id===DB.lastServer&&(s.members||[]).includes(S.me.id))
+    ?DB.lastServer
+    :DB.servers.filter(s=>(s.members||[]).includes(S.me.id))[0].id;
   selectServer(last);
 }
-
 function renderGuilds(){
   const box=$('#guilds');box.innerHTML='';
   DB.servers.filter(s=>(s.members||[]).includes(S.me.id)).forEach(s=>{
-    const el=document.createElement('div');el.className='guild'+(s.id===S.serverId?' on':'');el.textContent=initials(s.name);el.title=s.name;
-    if(s.id!==S.serverId)el.style.background=s.color;
-    else el.style.background='var(--grad)';
+    const el=document.createElement('div');
+    el.className='guild'+(s.id===S.serverId?' on':'');
+    el.textContent=initials(s.name);el.title=s.name;
+    if(s.id!==S.serverId){el.style.background=s.color;el.style.color='#fff';}
     el.onclick=()=>selectServer(s.id);box.appendChild(el);
   });
   const sep=document.createElement('div');sep.className='sep';box.appendChild(sep);
-  const add=document.createElement('div');add.className='guild add';add.textContent='+';add.title='Criar servidor';add.onclick=askCreateServer;box.appendChild(add);
+  const add=document.createElement('div');add.className='guild add';add.textContent='+';add.title='Criar servidor';
+  add.onclick=askCreateServer;box.appendChild(add);
 }
 function askCreateServer(){
-  const m=openModal(`<h2>Criar servidor</h2><p class="msub">dá um nome</p><div class="field"><label>nome</label><input id="m-srv" maxlength="30" /></div><div class="modal-actions"><button class="btn btn-g" id="m-cancel">Cancelar</button><button class="btn btn-p" id="m-ok">Criar</button></div>`);
+  const m=openModal('<h2>Criar servidor</h2><p class="msub">dá um nome</p><div class="field"><label>nome</label><input id="m-srv" maxlength="30" /></div><div class="modal-actions"><button class="btn btn-g" id="m-cancel">Cancelar</button><button class="btn btn-p" id="m-ok">Criar</button></div>');
   const i=m.querySelector('#m-srv');i.focus();
   m.querySelector('#m-cancel').onclick=()=>m.remove();
   m.querySelector('#m-ok').onclick=()=>{const n=i.value.trim();if(!n)return toast('dá um nome');createServer(n);m.remove();};
@@ -287,16 +265,22 @@ function renderChannels(){
 }
 function channelEl(c){
   const el=document.createElement('div');el.className='ch'+(c.id===S.channelId?' on':'');
-  el.innerHTML=`<span class="hash">${c.type==='text'?'#':'🔊'}</span><span class="nm">${escapeHtml(c.name)}</span>`;
-  const x=document.createElement('span');x.className='x';x.textContent='×';x.onclick=e=>{e.stopPropagation();askDeleteChannel(c.id);};el.appendChild(x);
+  el.innerHTML='<span class="hash">'+(c.type==='text'?'#':'🔊')+'</span><span class="nm">'+escapeHtml(c.name)+'</span>';
+  const x=document.createElement('span');x.className='x';x.textContent='×';
+  x.onclick=e=>{e.stopPropagation();askDeleteChannel(c.id);};
+  el.appendChild(x);
   el.onclick=()=>{if(c.type==='text')selectChannel(c.id);else toast('voz chega num arquivo futuro');};
   return el;
 }
 function askCreateChannel(type){
-  const m=openModal(`<h2>Criar canal ${type==='text'?'de texto':'de voz'}</h2><div class="field"><label>nome</label><input id="m-ch" maxlength="24" /></div><div class="modal-actions"><button class="btn btn-g" id="m-cancel">Cancelar</button><button class="btn btn-p" id="m-ok">Criar</button></div>`);
+  const m=openModal('<h2>Criar canal '+(type==='text'?'de texto':'de voz')+'</h2><div class="field"><label>nome</label><input id="m-ch" maxlength="24" /></div><div class="modal-actions"><button class="btn btn-g" id="m-cancel">Cancelar</button><button class="btn btn-p" id="m-ok">Criar</button></div>');
   const i=m.querySelector('#m-ch');i.focus();
   m.querySelector('#m-cancel').onclick=()=>m.remove();
-  m.querySelector('#m-ok').onclick=()=>{const n=i.value.trim().toLowerCase().replace(/\s+/g,'-');if(!n)return toast('dá um nome');getServer(S.serverId).channels.push({id:uid(),name:n,type});save();renderChannels();m.remove();};
+  m.querySelector('#m-ok').onclick=()=>{
+    const n=i.value.trim().toLowerCase().replace(/\s+/g,'-');
+    if(!n)return toast('dá um nome');
+    getServer(S.serverId).channels.push({id:uid(),name:n,type});save();renderChannels();m.remove();
+  };
 }
 function askDeleteChannel(chId){
   const srv=getServer(S.serverId);
@@ -311,20 +295,26 @@ function selectChannel(id){
   $('#empty-chat').classList.add('hidden');$('#chat-head').classList.remove('hidden');
   $('#chat-body').classList.remove('hidden');$('#composer').classList.remove('hidden');
   $('#ch-nm').textContent=info.channel.name;
-  renderMessages();renderChannels();renderMembers();$('#msg-input').focus();
+  renderMessages();renderChannels();renderMembers();
+  $('#msg-input').focus();
 }
-function clearChat(){$('#empty-chat').classList.remove('hidden');$('#chat-head').classList.add('hidden');$('#chat-body').classList.add('hidden');$('#composer').classList.add('hidden');$('#chat-body').innerHTML='';}
+function clearChat(){
+  $('#empty-chat').classList.remove('hidden');$('#chat-head').classList.add('hidden');
+  $('#chat-body').classList.add('hidden');$('#composer').classList.add('hidden');
+  $('#chat-body').innerHTML='';
+}
 function renderMessages(){
   const box=$('#chat-body');box.innerHTML='';
   const info=getChannel(S.channelId);if(!info)return;
   const list=DB.messages[S.channelId]||[];
   const w=document.createElement('div');w.className='chat-welcome';
-  w.innerHTML=`<h2># ${escapeHtml(info.channel.name)}</h2><p>esse é o começo do canal.</p>`;box.appendChild(w);
+  w.innerHTML='<h2># '+escapeHtml(info.channel.name)+'</h2><p>esse é o começo do canal.</p>';
+  box.appendChild(w);
   list.forEach(m=>{
     const u=getUser(m.userId);if(!u)return;
     const el=document.createElement('div');el.className='msg';
     const time=new Date(m.ts).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-    el.innerHTML=`<div class="av" style="background:${u.color}">${initials(u.username)}</div><div class="body"><div class="head"><span class="author" style="color:${u.color}">${escapeHtml(u.username)}</span><span class="time">${time}</span></div><div class="text">${escapeHtml(m.text)}</div></div>`;
+    el.innerHTML='<div class="av" style="background:'+u.color+'">'+initials(u.username)+'</div><div class="body"><div class="head"><span class="author" style="color:'+u.color+'">'+escapeHtml(u.username)+'</span><span class="time">'+time+'</span></div><div class="text">'+escapeHtml(m.text)+'</div></div>';
     if(m.userId===S.me.id){const del=document.createElement('div');del.className='del-msg';del.textContent='×';del.onclick=()=>deleteMessage(m.id);el.appendChild(del);}
     box.appendChild(el);
   });
@@ -337,5 +327,45 @@ function sendMessage(){
   DB.messages[S.channelId].push({id:uid(),userId:S.me.id,text,ts:Date.now()});
   save();input.value='';autoGrow(input);updateSendBtn();renderMessages();
 }
-function deleteMessage(id){DB.messages[S.channelId]=(DB.messages[S.channelId]||[]).filter(m=>m.id!==id);save();renderMessages();}
-function renderMembers
+function deleteMessage(id){
+  DB.messages[S.channelId]=(DB.messages[S.channelId]||[]).filter(m=>m.id!==id);
+  save();renderMessages();
+}
+function renderMembers(){
+  const box=$('#members');box.innerHTML='';
+  const srv=getServer(S.serverId);if(!srv)return;
+  const lbl=document.createElement('div');lbl.className='mem-lbl';
+  lbl.textContent='Membros — '+(srv.members||[]).length;box.appendChild(lbl);
+  (srv.members||[]).forEach(uidM=>{
+    const u=getUser(uidM);if(!u)return;
+    const role=srv.ownerId===u.id?'dono':'membro';
+    const el=document.createElement('div');el.className='mem';
+    el.innerHTML='<div class="av" style="background:'+u.color+'">'+initials(u.username)+'</div><div class="nm">'+escapeHtml(u.username)+' <span style="color:var(--tx3);font-size:11px">· '+role+'</span></div>';
+    box.appendChild(el);
+  });
+}
+function autoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,180)+'px';}
+function updateSendBtn(){
+  const has=$('#msg-input').value.trim().length>0;
+  $('#send-btn').classList.toggle('on',has);
+}
+function bindEvents(){
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setAuthMode(t.dataset.tab));
+  $('#auth-go').onclick=doAuth;
+  $('#f-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
+  $('#f-user').addEventListener('keydown',e=>{if(e.key==='Enter')$('#f-pass').focus();});
+  $('#btn-logout').onclick=logout;
+  const input=$('#msg-input');
+  input.addEventListener('input',()=>{autoGrow(input);updateSendBtn();});
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+  $('#send-btn').onclick=sendMessage;
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  bindEvents();
+  const s=loadSession();
+  if(s)bootApp(s);
+  else setAuthMode('login');
+});
+</script>
+</body>
+</html>
